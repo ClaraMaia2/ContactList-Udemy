@@ -10,7 +10,7 @@
 
 ## Project Description
 
-This is a mobile application that is used to store contacts based on an external web API called RandomMe. 
+This is a mobile application that is used to store contacts using an external web API called RandomMe. 
 
 ## 📁 Access
 

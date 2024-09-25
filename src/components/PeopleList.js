@@ -1,20 +1,25 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import PeopleListItem from './PeopleListItem';
-
-const PeopleList = (props) => {
-    const { peoples } = props;
-    const items = peoples.map(person => 
-        <PeopleListItem key={ person.name.first } people={ person }/>
-    );
+/**
+ * Renders a list of people using a FlatList component.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.peoples - An array of people objects to be displayed in the list.
+ * @param {Function} props.onPressItem - A callback function to be called when an item is pressed.
+ *
+ * @returns {JSX.Element} A FlatList component that renders the list of people.
+ */ 
+function PeopleList(props) {
+    const { peoples, onPressItem } = props;
 
     return (
-        <View style={ styles.container }>
-            { items }
-        </View>
-    )
-};
+        <FlatList style={styles.container} data={peoples} renderItem={({ item }) => (
+            <PeopleListItem people={item} navigateToPeopleDetails={onPressItem} />
+        )} keyExtractor={item => item.id.value} />
+    );
+}
 
 const styles = StyleSheet.create({
     container: {

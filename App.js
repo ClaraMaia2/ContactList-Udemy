@@ -1,44 +1,61 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
-import Axios from 'axios';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Header from './src/components/Header';
-import PeopleList from './src/components/PeopleList';
+import PeoplePage from "./src/pages/PeoplePage";
+import PeopleDetailsPage from './src/pages/PeopleDetailsPage';
 
-export default class App extends React.Component {
-  constructor(props){
-    super(props);
-
-    this.state = {
-      peoples: []
-    };
-  }
-
-  componentDidMount() {
-    /* Promises = treat asynchronous calls  
-        - resolved -> the promise could get the call results
-        - rejected -> the promise couldn't get the call results
-        - pending -> the promise doesn't know if the promise was resolved or rejected
-      Promise(callback_function)
-    */
-    Axios
-        .get('https://randomuser.me/api/?nat=br&results=5')
-        .then(response => {
-          const { results } = response.data;
-          this.setState({
-            peoples: results
-          });
-        });
-  }
-
-  render(){
-    return (
-      <View>
-        <Header title="Contacts" />
-        <PeopleList peoples={ this.state.peoples }/>
-        <StatusBar style="auto" />
-      </View>
-    );
-  };
+const Stack = createNativeStackNavigator();
+/**
+ * AppNavigation is a functional component that sets up the navigation structure for the application.
+ * It uses a Stack Navigator to manage two screens: "main" and "peopleDetails".
+ * 
+ * - The "main" screen displays the PeoplePage component with a customized header.
+ *   - Title: "Contacts"
+ *   - Header background color: black
+ *   - Header title color: white
+ *   - Header title font size: 30
+ *   - Header title alignment: center
+ * 
+ * - The "peopleDetails" screen displays the PeopleDetailsPage component with a dynamic header title based on the route parameter.
+ *   - Title: First name of the person from the route parameter
+ *   - Header background color: black
+ *   - Header title color: white
+ *   - Header title font size: 30
+ *   - Header title alignment: center
+ *   - Header back button color: white
+ * 
+ * @returns {JSX.Element} The navigation container with the configured stack navigator.
+ */
+function AppNavigation() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+          <Stack.Screen name="main" component={ PeoplePage } options={{ 
+            title: "Contacts", 
+            headerStyle: {
+              backgroundColor: "black",
+            },
+            headerTitleStyle: {
+              color: "white",
+              fontSize: 30,
+            },
+            headerTitleAlign: "center",
+          }} />
+          <Stack.Screen name="peopleDetails" component={ PeopleDetailsPage } options={({ route }) => ({
+            title: route.params.people.name.first,
+            headerStyle: {
+              backgroundColor: "black",
+            },
+            headerTitleStyle: {
+              color: "white",
+              fontSize: 30,
+            },
+            headerTitleAlign: "center",
+            headerTintColor: "white"
+          })}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+
+export default AppNavigation;

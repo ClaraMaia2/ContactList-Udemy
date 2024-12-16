@@ -26,3 +26,11 @@ or, if you prefer using yarn
 ```
 yarn android
 ```
+
+## 📜 License
+
+This project is for learning purposes only and is not intended for production use. Feel free to explore and learn from it!
+
+## ⭐ If you found this project helpful, consider giving it a star!
+
+<br>
